@@ -2,7 +2,7 @@
 
     //FRONT END PURPOSE
 
-    define('SITE_URL','http://127.0.0.1/gymko/');
+    define('SITE_URL','http://v40sc4sog0wc8swo4sgo04s4.146.190.103.211.sslip.io/gymko/');
     define('ABOUT_IMG_PATH',SITE_URL.'images/about/');
     define('CAROUSEL_IMG_PATH',SITE_URL.'images/carousel/');
     define('TRAINORS_IMG_PATH',SITE_URL.'images/trainors/');
