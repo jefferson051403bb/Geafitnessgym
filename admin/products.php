@@ -7,12 +7,13 @@ $hname= getenv('DB_HOST');
     $port = getenv('DB_PORT') ?: '3306';
 
 try {
-    $conn = new PDO("mysql:host=$hname;dbname=$uname", $ $db, $ $pass);
+    $conn = new PDO("mysql:host=$hname;dbname=$db", $uname, $pass);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch(PDOException $e) {
     echo "Connection failed: " . $e->getMessage();
     exit();
 }
+
 
 adminLogin();
 
