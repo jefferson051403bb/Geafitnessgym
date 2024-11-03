@@ -1,14 +1,12 @@
 <?php
 // FRONT-END PURPOSE
-
-define('SITE_URL', 'http://v40sc4sog0wc8swo4sgo04s4.146.190.103.211.sslip.io/gymko/');
+define('SITE_URL', getenv('SITE_URL') ?: 'http://v40sc4sog0wc8swo4sgo04s4.146.190.103.211.sslip.io/gymko/');
 define('ABOUT_IMG_PATH', SITE_URL . 'images/about/');
 define('CAROUSEL_IMG_PATH', SITE_URL . 'images/carousel/');
 define('TRAINORS_IMG_PATH', SITE_URL . 'images/trainors/');
 
 // BACK-END PURPOSE
-
-define('UPLOAD_IMAGE_PATH', $_SERVER['DOCUMENT_ROOT'] . '/gymko/images/');
+define('UPLOAD_IMAGE_PATH', getenv('IMAGE_STORAGE_PATH') ?: $_SERVER['DOCUMENT_ROOT'] . '/gymko/images/');
 define('ABOUT_FOLDER', 'about/');
 define('CAROUSEL_FOLDER', 'carousel/');
 define('USERS_FOLDER', 'users/');
@@ -59,8 +57,8 @@ function uploadImage($image, $folder)
         $img_path = UPLOAD_IMAGE_PATH . $folder . $rname;
 
         // Check if the folder exists; if not, create it
-        if (!is_dir(UPLOAD_IMAGE_PATH . $folder)) {
-            mkdir(UPLOAD_IMAGE_PATH . $folder, 0777, true);
+        if (!is_dir(UPLOAD_IMAGE_PATH . $folder) && !mkdir(UPLOAD_IMAGE_PATH . $folder, 0755, true)) {
+            return 'folder_creation_failed'; // Failed to create folder
         }
 
         // Move the uploaded file to the destination path
@@ -97,8 +95,8 @@ function uploadUserImage($image)
         $img_path = UPLOAD_IMAGE_PATH . USERS_FOLDER . $rname;
 
         // Check if the folder exists; if not, create it
-        if (!is_dir(UPLOAD_IMAGE_PATH . USERS_FOLDER)) {
-            mkdir(UPLOAD_IMAGE_PATH . USERS_FOLDER, 0777, true);
+        if (!is_dir(UPLOAD_IMAGE_PATH . USERS_FOLDER) && !mkdir(UPLOAD_IMAGE_PATH . USERS_FOLDER, 0755, true)) {
+            return 'folder_creation_failed'; // Failed to create folder
         }
 
         // Save the image
