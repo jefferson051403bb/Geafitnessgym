@@ -16,18 +16,14 @@ function adminLogin()
 {
     session_start();
     if (!(isset($_SESSION['adminLogin']) && $_SESSION['adminLogin'] === true)) {
-        echo "<script>
-            window.location.href='index.php';
-        </script>";
+        echo "<script>window.location.href='index.php';</script>";
         exit;
     }
 }
 
 function redirect($url)
 {
-    echo "<script>
-        window.location.href='$url';
-    </script>";
+    echo "<script>window.location.href='$url';</script>";
     exit;
 }
 
@@ -50,23 +46,25 @@ function uploadImage($image, $folder)
     // Check if the MIME type is valid
     if (!in_array($img_mime, $valid_mime)) {
         return 'inv_img'; // Invalid image format
-    } else {
-        $ext = pathinfo($image['name'], PATHINFO_EXTENSION);
-        $rname = 'IMG_' . random_int(11111, 99999) . "." . $ext;
+    } 
 
-        $img_path = UPLOAD_IMAGE_PATH . $folder . $rname;
+    // Generate a random file name
+    $ext = pathinfo($image['name'], PATHINFO_EXTENSION);
+    $rname = 'IMG_' . random_int(11111, 99999) . "." . $ext;
+    $img_path = UPLOAD_IMAGE_PATH . $folder . $rname;
 
-        // Check if the folder exists; if not, create it
-        if (!is_dir(UPLOAD_IMAGE_PATH . $folder) && !mkdir(UPLOAD_IMAGE_PATH . $folder, 0755, true)) {
+    // Check if the folder exists; if not, create it
+    if (!is_dir(UPLOAD_IMAGE_PATH . $folder)) {
+        if (!mkdir(UPLOAD_IMAGE_PATH . $folder, 0755, true)) {
             return 'folder_creation_failed'; // Failed to create folder
         }
+    }
 
-        // Move the uploaded file to the destination path
-        if (move_uploaded_file($image['tmp_name'], $img_path)) {
-            return $rname; // Image upload successful
-        } else {
-            return 'upd_failed'; // Image upload failed
-        }
+    // Move the uploaded file to the destination path
+    if (move_uploaded_file($image['tmp_name'], $img_path)) {
+        return $rname; // Image upload successful
+    } else {
+        return 'upd_failed'; // Image upload failed
     }
 }
 
@@ -88,23 +86,25 @@ function uploadUserImage($image)
     // Check if the MIME type is valid
     if (!in_array($img_mime, $valid_mime)) {
         return 'inv_img'; // Invalid image format
-    } else {
-        $ext = pathinfo($image['name'], PATHINFO_EXTENSION);
-        $rname = 'IMG_' . random_int(11111, 99999) . ".jpeg";
+    } 
 
-        $img_path = UPLOAD_IMAGE_PATH . USERS_FOLDER . $rname;
+    // Generate a random file name with .jpeg extension
+    $ext = pathinfo($image['name'], PATHINFO_EXTENSION);
+    $rname = 'IMG_' . random_int(11111, 99999) . ".jpeg";
+    $img_path = UPLOAD_IMAGE_PATH . USERS_FOLDER . $rname;
 
-        // Check if the folder exists; if not, create it
-        if (!is_dir(UPLOAD_IMAGE_PATH . USERS_FOLDER) && !mkdir(UPLOAD_IMAGE_PATH . USERS_FOLDER, 0755, true)) {
+    // Check if the folder exists; if not, create it
+    if (!is_dir(UPLOAD_IMAGE_PATH . USERS_FOLDER)) {
+        if (!mkdir(UPLOAD_IMAGE_PATH . USERS_FOLDER, 0755, true)) {
             return 'folder_creation_failed'; // Failed to create folder
         }
+    }
 
-        // Save the image
-        if (move_uploaded_file($image['tmp_name'], $img_path)) {
-            return $rname;
-        } else {
-            return 'upd_failed';
-        }
+    // Save the image
+    if (move_uploaded_file($image['tmp_name'], $img_path)) {
+        return $rname; // Image upload successful
+    } else {
+        return 'upd_failed'; // Image upload failed
     }
 }
 ?>
